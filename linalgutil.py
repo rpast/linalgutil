@@ -47,11 +47,11 @@ def decompose_matrix(A):
     r_echelon = col_space_matrix.pinv() * A_sym
 
     # Convert to numpy matrices
-    colspace_np = np.matrix(col_space_matrix)
-    rrefa_np = np.matrix(r_echelon)
-    nspace_np = np.matrix(null_space_matrix)
+    colspace_np = np.asarray(col_space_matrix, dtype=float)
+    rrefa_np = np.asarray(r_echelon, dtype=float)
+    nspace_np = np.asarray(null_space_matrix, dtype=float)
 
-    assert colspace_np @ rrefa_np == A, "CR does not equal A"
+    np.testing.assert_allclose(colspace_np @ rrefa_np, A, rtol=1e-8, atol=1e-10) 
     
     return colspace_np, rrefa_np, nspace_np
 
