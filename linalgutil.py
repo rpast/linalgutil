@@ -55,3 +55,42 @@ def decompose_matrix(A):
     
     return colspace_np, rrefa_np, nspace_np
 
+
+def ax0_solutions(A):
+    """
+    Find how many unique solutions exist for homogenous system Ax = 0.
+    """
+
+    sols = A.shape[1] - np.linalg.matrix_rank(A)
+
+    if sols == 0:
+        return "There is only the trivial solution x = 0."
+    elif sols > 0:
+        return f"There are {sols} unique solutions for the homogenous system Ax = 0."
+    
+    return sols
+    
+
+def learn_subspace_dims(A):
+    """
+    Learn the dimensions of the column space and null space of matrix A.
+    
+    :param A: Input matrix (numpy array or sympy Matrix)
+    :return: Tuple of dimensions (dim_col_space, dim_null_space)
+    :rtype: tuple
+    """
+    
+    if not isinstance(A, (np.ndarray, Matrix)):
+        raise TypeError("Input A must be a numpy array or sympy Matrix.")
+    
+    colspace_dim = np.linalg.matrix_rank(A)
+    rowspace_dim = np.linalg.matrix_rank(A.T)
+    nullspace_dim = A.shape[1] - colspace_dim
+    nullspace_t_dim = A.shape[0] - rowspace_dim
+
+    print(f"Column space dimension: {colspace_dim}")
+    print(f"Row space dimension: {rowspace_dim}")
+    print(f"Null space dimension: {nullspace_dim}")
+    print(f"Null space transpose dimension: {nullspace_t_dim}")
+
+    return colspace_dim, nullspace_dim, rowspace_dim, nullspace_t_dim
